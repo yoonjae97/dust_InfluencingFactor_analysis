@@ -1,0 +1,74 @@
+TempPrec <- read.csv("19812019TempPrec.csv", encoding = "CP949")
+TempPrec
+str(TempPrec)
+
+plot(TempPrec$Prec.mm. ~ TempPrec$MonthAvgTemp,
+     col="forestgreen", pch=19,
+     xlab="Temperature", ylab="Precipitation",
+     main="Temperature and Precipitation(Month Avg)")
+cor(TempPrec$MonthAvgTemp, TempPrec$Prec.mm.)
+with(TempPrec, cor.test(Prec.mm., MonthAvgTemp))
+with(TempPrec, cor.test(Prec.mm., MonthAvgTemp, alternative = 'greater', conf.level=0.95))
+
+
+TPDYTH <- read.csv("20002019TPDYTH.csv", encoding="CP949")
+
+plot(TPDYTH$dust ~ TPDYTH$癤퓍emp,
+     col="forestgreen", pch=19,
+     xlab="Temperature", ylab="dust",
+     main="Temperature and dust(Month Avg)")
+cor(TPDYTH$癤퓍emp, TPDYTH$dust)
+with(TPDYTH, cor.test(dust, 癤퓍emp))
+with(TPDYTH, cor.test(dust, 癤퓍emp, alternative = 'greater', conf.level=0.95))
+
+plot(TPDYTH$Yellowdustdays ~ TPDYTH$癤퓍emp,
+     col="forestgreen", pch=19,
+     xlab="Temperature", ylab="dust",
+     main="Temperature and dust(Month Avg)")
+cor(TPDYTH$癤퓍emp, TPDYTH$Yellowdustdays)
+with(TPDYTH, cor.test(Yellowdustdays, 癤퓍emp))
+with(TPDYTH, cor.test(Yellowdustdays, 癤퓍emp, alternative = 'greater', conf.level=0.95))
+
+plot(TPDYTH$Tropicalnights ~ TPDYTH$癤퓍emp,
+     col="forestgreen", pch=19,
+     xlab="Temperature", ylab="dust",
+     main="Temperature and dust(Month Avg)")
+cor(TPDYTH$癤퓍emp, TPDYTH$Tropicalnights)
+with(TPDYTH, cor.test(Tropicalnights, 癤퓍emp))
+with(TPDYTH, cor.test(Tropicalnights, 癤퓍emp, alternative = 'greater', conf.level=0.95))
+
+plot(TPDYTH$heatwavedays ~ TPDYTH$癤퓍emp,
+     col="forestgreen", pch=19,
+     xlab="Temperature", ylab="dust",
+     main="Temperature and dust(Month Avg)")
+cor(TPDYTH$癤퓍emp, TPDYTH$heatwavedays)
+with(TPDYTH, cor.test(heatwavedays, 癤퓍emp))
+with(TPDYTH, cor.test(heatwavedays, 癤퓍emp, alternative = 'greater', conf.level=0.95))
+
+
+TPDYTH <- TPDYTH[1:7]
+TPDYTH
+str(TPDYTH)
+
+TPD.cor <- cor(TPDYTH[-7])
+TPD.cor
+class(TPD.cor)
+str(TPD.cor)
+
+library(psych)
+corr.test(x = TPDYTH[-7])
+
+print(corr.test(TPDYTH[-7]), short=FALSE)
+
+pairs.panels(TPDYTH[-7], bg="red", pch=21, hist.col="gold")
+
+install.packages("corrgram")
+library(corrgram)
+corrgram(TPDYTH, order=TRUE, lower.panel = panel.shade,
+         upper.panel = panel.pie, text.panel = panel.txt)
+
+cols <- colorRampPalette(c("darkgoldenrod4", "burlywood1",
+                           "darkkhaki", "darkgreen"))
+corrgram(TPDYTH, order = FALSE, col.regions = cols,
+         lower.panel = panel.pie, upper.panel = panel.conf,
+         text.panel = panel.txt)

@@ -1,0 +1,75 @@
+data1 <- read.csv(file="before2018Tempmonth.csv", encoding="CP949")
+data2 <- read.csv(file="2019Tempmonth.csv", encoding="CP949")
+
+data1
+mean(data1$Jan)
+data2
+shapiro.test(data1$Jan)
+
+
+t.test(data1$Jan, mu=data2$Jan)
+t.test(data1$Feb, mu=data2$Feb)
+t.test(data1$Mar, mu=data2$Mar)
+t.test(data1$Apr, mu=data2$Apr)
+t.test(data1$May, mu=data2$May)
+t.test(data1$Jun, mu=data2$Jun)
+t.test(data1$Jul, mu=data2$Jul)
+t.test(data1$Aug, mu=data2$Aug)
+t.test(data1$Sep, mu=data2$Sep)
+t.test(data1$Oct, mu=data2$Oct)
+t.test(data1$Nov, mu=data2$Nov)
+t.test(data1$Dec, mu=data2$Dec)
+#Apr,Jun, Nov FALSE
+
+i=1
+repeat{
+  t.test(data1[[i]], mu=data2[[i]])
+  if (i>=13) break
+  i=i+1
+}
+
+for(i in c(1:12)){
+  t.test(data1[[i]], mu=data2[[i]])
+}
+
+install.packages("gplots")
+library(gplots)
+month.plot <- read.csv(file="19812019TempMonth.csv", encoding="CP949")
+month.plot
+str(month.plot)
+
+month.plot$癤풷ear <- factor(month.plot$癤풷ear)
+
+plotmeans(MonthAvgTemp ~ 癤풷ear, data=month.plot)
+
+boxplot(MonthAvgTemp ~ 癤풷ear, data=month.plot)
+
+MonthAvgTemp.aov <- aov(MonthAvgTemp ~ 癤풷ear, data=month.plot)
+MonthAvgTemp.aov
+summary(MonthAvgTemp.aov)
+
+model.tables(MonthAvgTemp.aov, type='mean')
+model.tables(MonthAvgTemp.aov, type='effects')
+
+MonthAvgTemp.compare <- TukeyHSD(MonthAvgTemp.aov)
+MonthAvgTemp.compare
+
+plot(TukeyHSD(MonthAvgTemp.aov), col='blue', las=1) #do not run
+
+library(multcomp)
+MonthAvgTemp.hsd <- glht(model=MonthAvgTemp.aov, linfct=mcp(癤풷ear="Tukey"))
+plot(cld(MonthAvgTemp.hsd, level=0.05))  #do not run
+
+library(car)
+qqPlot(month.plot$MonthAvgTemp, pch=20, col="deepskyblue", id=FALSE,
+       main="Q-Q Plot")
+
+shapiro.test(month.plot$MonthAvgTemp)
+
+is.na(MonthAvgTemp.aov)
+MonthAvgTemp.aov[is.na(MonthAvgTemp.aov)] <- 0
+outlierTest(MonthAvgTemp.aov)
+
+leveneTest(MonthAvgTemp ~ 癤풷ear, data=month.plot)
+bartlett.test(MonthAvgTemp ~ 癤풷ear, data=month.plot)
+oneway.test(MonthAvgTemp ~ 癤풷ear, data=month.plot)
